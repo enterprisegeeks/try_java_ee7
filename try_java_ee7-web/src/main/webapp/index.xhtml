@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://xmlns.jcp.org/jsf/html"
+       xmlns:jsf="http://xmlns.jcp.org/jsf"
+       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:bs="http://xmlns.jcp.org/jsf/composite/bootstrap"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="WEB-INF/templates/top.xhtml">
+            <ui:define name="contents">
+                <div class="container">
+                    <h1>サンプルチャット</h1>
+                    <form class="login" jsf:id="form" >
+                    
+                        <bs:input fgid="nameFg" name="name" label="名前" >
+                            <input type="text" jsf:id="name" jsf:value="#{account.name}"
+                                   class="form-control" placeholder="表示名を入力" >
+                                <f:ajax execute="name" render="nameFg" event="blur"/>
+                            </input>
+                        </bs:input>
+                        <bs:input fgid="emailFg" name="email" label="Gravatarメールアドレス">
+                            <input type="email" jsf:id="email" jsf:value="#{account.email}"
+                                   class="form-control" placeholder="Gravatarのイメージを使用する場合入力">
+                                <f:ajax execute="email" render="emailFg" event="blur"/>
+                            </input>
+                        </bs:input>
+
+                        <h:commandButton class="btn btn-default" action="#{action.join()}" value="join" />
+                    </form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

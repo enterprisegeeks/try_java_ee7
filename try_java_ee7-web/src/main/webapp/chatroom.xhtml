@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <body>
+        <ui:composition template="WEB-INF/templates/main.xhtml">
+            <ui:define name="main">
+                <h1>room name</h1>
+                <p>sample</p>
+                <a class="btn btn-primary" href="#">Button</a>
+            </ui:define>
+            <ui:define name="menu">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="">
+                        <a href="#{request.contextPath}/">room 1</a>
+                    </li>
+                    <li class="active">
+                        <a href="#{request.contextPath}/">room 2</a>
+                    </li>
+                    <li class="">
+                        <a href="#{request.contextPath}/">room 3</a>
+                    </li>
+                </ul>
+                
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+body {
+    height: 100%;
+    background-image: url(../../resources/css/skin_side_up.png);
+}
+
+.header-thumb{
+    max-height: 32px;
+    float: left;
+    margin: 5px;
+}
+
+.login {
+    width: 60%;
+}
+
+.jumbotron {
+    background-image: url(../../resources/css/skin_side_up.png);
+    
+}
+
+.error {
+    color: red
+}

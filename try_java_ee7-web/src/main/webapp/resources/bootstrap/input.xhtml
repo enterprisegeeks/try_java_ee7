@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+    
+    <composite:interface>
+        <composite:attribute name="fgid" required="true" displayName="フォームグループのID AJAXチェック時の再描画ポイント"/>
+        <composite:attribute name="name" required="true" displayName="input要素のコンポーネント名"/>
+        <composite:attribute name="label" required="true" displayName="input要素の表示ラベル"/>
+    </composite:interface>
+    
+    <composite:implementation>
+        <div jsf:id="#{cc.attrs.fgid}" class="form-group #{errorStyle.get(component.findComponent(cc.attrs.name).clientId)}">
+           <label jsf:for="#{cc.attrs.name}" class="control-label">#{cc.attrs.label}
+               <h:message for="#{cc.attrs.name}" /></label>
+           <composite:insertChildren/>
+        </div>
+    </composite:implementation>    
+</html>
