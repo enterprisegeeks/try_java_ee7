@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue Nov 25 15:13:38 JST 2014:
+DerbyバージョンThe Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): インスタンスa816c00e-0149-e595-7683-000008b110f8を
+file:/C:/Users/kentaro.maeda.ULDOMAIN/.m2/repository/org/glassfish/main/extras/glassfish-embedded-all/4.1/glassfish-embedded-all-4.1.jarからロードされたクラス・ローダーsun.misc.Launcher$AppClassLoader@6bc7c054により
+データベース・ディレクトリmemory:C:\Users\kentaro.maeda.ULDOMAIN\Documents\NetBeansProjects\try_java_ee7\try_java_ee7-web\test上でブートしています
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0-b132
+user.dir=C:\Users\kentaro.maeda.ULDOMAIN\Documents\NetBeansProjects\try_java_ee7\try_java_ee7-web
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+データベース・クラス・ローダーが開始されました - derby.database.classpath=''

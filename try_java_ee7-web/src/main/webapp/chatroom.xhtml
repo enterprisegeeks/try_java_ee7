@@ -1,27 +1,30 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:bootstrap="http://xmlns.jcp.org/jsf/composite/bootstrap"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <body>
         <ui:composition template="WEB-INF/templates/main.xhtml">
-            <ui:define name="main">
-                <h1>room name</h1>
-                <p>sample</p>
-                <a class="btn btn-primary" href="#">Button</a>
-            </ui:define>
+            
             <ui:define name="menu">
+                <f:event listener="#{chatRoomAction.prepareRoom()}" type="preRenderView" /> 
+               
+                <form jsf:id="menuForm">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="">
-                        <a href="#{request.contextPath}/">room 1</a>
-                    </li>
-                    <li class="active">
-                        <a href="#{request.contextPath}/">room 2</a>
-                    </li>
-                    <li class="">
-                        <a href="#{request.contextPath}/">room 3</a>
+                    <li var="room" jsfc="ui:repeat" value="#{chatRoom.rooms}" class="#{room.id eq auth.selected.id ? 'active' : ''}">
+                        <h:commandLink action="#{chatRoomAction.selectRoom(room)}" >#{room.name}</h:commandLink>
                     </li>
                 </ul>
-                
+                </form>
+            </ui:define>
+            <ui:define name="main">
+                <h1>#{auth.selected.name}</h1>
+                <ui:repeat var="chat" value="#{chatRoom.chats}">
+                    <div>#{chat.content}</div>
+                </ui:repeat>
             </ui:define>
         </ui:composition>
     </body>

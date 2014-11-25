@@ -5,7 +5,8 @@
  */
 package enterprisegeeks.listener;
 
-import enterprisegeeks.model.Account;
+import enterprisegeeks.entity.Account;
+import enterprisegeeks.model.Auth;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
@@ -22,10 +23,10 @@ import javax.inject.Named;
 public class LoginListener{
     
     @Inject
-    private Account account;
+    private Auth auth;
     
     private boolean isLoggedin() {
-        return account != null && account.isLogin();
+        return auth != null && auth.isLoggedIn();
     }
     
     /** ログイン済みで無い場合、ログインページへリダイレクト */

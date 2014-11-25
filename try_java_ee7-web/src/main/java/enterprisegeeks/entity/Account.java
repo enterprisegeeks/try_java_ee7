@@ -3,11 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package enterprisegeeks.model;
+package enterprisegeeks.entity;
 
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -15,19 +19,28 @@ import org.hibernate.validator.constraints.Email;
 /**
  * ユーザーアカウント
  */
-@SessionScoped
-@Named
+@Entity
+@NamedQueries(
+@NamedQuery(name = "Account.nameOrEmali", query = "select a from Account a where a.name = :name or a.email = :email")
+)
 public class Account implements Serializable{
     
-    @NotNull(message = "{name.required}")
-    @Size(message = "{name.required}", min = 1) // 未入力の場合、空文字になるため。
+    @NotNull(message = "{required}")
+    @Size(message = "{required}", min = 1) // 未入力の場合、空文字になるため。
+    @Id
+    @Column(length = 40)
     private String name;
     
     @Email(message = "{email.invalid}")
+    @NotNull(message = "{required}")
+    @Size(message = "{required}", min = 1)
+    @Column(length = 200, unique = true, nullable = false)
     private String email;
-
+    
+    @Column(length = 32, nullable = true )
     private String gravaterHash;
     
+    @Transient // テーブルに持たない項目
     private boolean login;
     
     public String getName() {
