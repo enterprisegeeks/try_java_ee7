@@ -6,6 +6,7 @@
 package enterprisegeeks.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,6 +36,9 @@ public class Chat implements Serializable {
     @Column(length = 200)
     private String content;
 
+    /** 投稿時刻 */
+    private Timestamp posted;
+    
     public long getId() {
         return id;
     }
@@ -57,6 +61,22 @@ public class Chat implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Account getSpeaker() {
+        return speaker;
+    }
+
+    public void setSpeaker(Account speaker) {
+        this.speaker = speaker;
+    }
+
+    public Timestamp getPosted() {
+        return posted;
+    }
+
+    public void setPosted(Timestamp posted) {
+        this.posted = posted;
     }
     
     

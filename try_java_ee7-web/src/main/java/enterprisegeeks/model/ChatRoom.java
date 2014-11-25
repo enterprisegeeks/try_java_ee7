@@ -8,6 +8,7 @@ package enterprisegeeks.model;
 import enterprisegeeks.entity.Chat;
 import enterprisegeeks.entity.Room;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
@@ -23,9 +24,14 @@ import javax.validation.constraints.Size;
 @Named
 public class ChatRoom implements Serializable{
     
+    /** チャットルーム一覧 */
     private List<Room> rooms = new ArrayList<>();
     
+    /** 現在選択されているチャットルームのチャット一覧 */
     private List<Chat> chats = new ArrayList<>();
+    
+    /** チャットを取得した最終時刻 */
+    private Timestamp lastPost;
     
     @NotNull(message = "{required}")
     @Size(message = "{required}", min = 1)
@@ -53,5 +59,13 @@ public class ChatRoom implements Serializable{
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Timestamp getLastPost() {
+        return lastPost;
+    }
+
+    public void setLastPost(Timestamp lastPost) {
+        this.lastPost = lastPost;
     }
 }

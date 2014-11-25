@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:bootstrap="http://xmlns.jcp.org/jsf/composite/bootstrap"
+      xmlns:bs="http://xmlns.jcp.org/jsf/composite/bootstrap"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <body>
@@ -22,9 +22,25 @@
             </ui:define>
             <ui:define name="main">
                 <h1>#{auth.selected.name}</h1>
-                <ui:repeat var="chat" value="#{chatRoom.chats}">
-                    <div>#{chat.content}</div>
-                </ui:repeat>
+                
+                <div jsfc="ui:repeat" var="chat" value="#{chatRoom.chats}" class="media">
+                    <a class="media-left" href="#">
+                        <img src="#{chat.speaker.gravatar}"/>
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">#{chat.speaker.name}</h4>
+                        #{chat.content}
+                    </div>
+                </div>
+                
+                <form jsf:id="postForm" jsf:rendered="#{auth.selected != null}"  >
+                    <bs:input fgid="contentFd" label="chat" name="content">
+                        <textarea jsf:id="content" jsf:value="#{chatRoom.content}" cols="6" rows="4"
+                                  class="form-control" placeholder="chat"></textarea>
+                        </bs:input>
+                    <h:commandButton value="post" action="#{chatRoomAction.chat()}" class="btn btn-default"/> 
+                </form>
+                
             </ui:define>
         </ui:composition>
     </body>

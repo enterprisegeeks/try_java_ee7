@@ -6,12 +6,17 @@
 package enterprisegeeks.service;
 
 import enterprisegeeks.entity.Account;
+import enterprisegeeks.entity.Chat;
 import enterprisegeeks.entity.Room;
+import java.sql.Timestamp;
 import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * 永続層周りの機能を提供
@@ -42,10 +47,31 @@ public class Service {
         
     }
     
+    /** チャットルーム一覧 */
     public List<Room> allRooms() {
         return em.createNamedQuery("Room.all", Room.class).getResultList();
     }
     
+    /** チャットルームのチャット一覧を取得 */
+    public List<Chat> findChatByRoom(Room room, Timestamp from) {
+        
+        // 練習がてらcriteriaAPI を試す。
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Chat> cq = cb.createQuery(Chat.class);
+        Root<Chat> chat = cq.from(Chat.class);
+        if (from != null) {
+            
+            cq.where(cb.and(cb.equal(chat.get("room"), room), cb.greaterThan(chat.get("posted"), from)));
+        } else {
+            cq.where(cb.equal(chat.get("room"), room));
+        }
+        cq.orderBy(cb.asc(chat.get("posted")));
+        
+        return em.createQuery(cq).getResultList();
+    }
     
+    public void addChat(Chat chat) {
+        em.persist(chat);
+    }
     
 }

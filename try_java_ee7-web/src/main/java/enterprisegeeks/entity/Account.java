@@ -40,9 +40,6 @@ public class Account implements Serializable{
     @Column(length = 32, nullable = true )
     private String gravaterHash;
     
-    @Transient // テーブルに持たない項目
-    private boolean login;
-    
     public String getName() {
         return name;
     }
@@ -57,14 +54,6 @@ public class Account implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isLogin() {
-        return login;
-    }
-
-    public void setLogin(boolean login) {
-        this.login = login;
     }
 
     public String getGravaterHash() {

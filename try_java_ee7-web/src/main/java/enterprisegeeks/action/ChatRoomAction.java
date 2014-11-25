@@ -5,14 +5,17 @@
  */
 package enterprisegeeks.action;
 
+import enterprisegeeks.entity.Chat;
 import enterprisegeeks.entity.Room;
 import enterprisegeeks.model.Auth;
 import enterprisegeeks.model.ChatRoom;
 import enterprisegeeks.service.Service;
+import java.sql.Timestamp;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -40,13 +43,32 @@ public class ChatRoomAction {
      */
     public void selectRoom(Room room) {
         auth.setSelected(room);
-        
+        List<Chat> added = service.findChatByRoom(auth.getSelected(), null);
+        chatRoom.setChats(added);
+        if (!added.isEmpty()) {
+            
+            chatRoom.setLastPost(added.get(added.size() -1).getPosted());
+        }
     }
     /** 発言を行い、発言内容を更新する。 */
+    @Transactional
     public void chat(){
-        //TODO 登録
+        
+        Chat chat = new Chat();
+        chat.setContent(chatRoom.getContent());
+        chat.setRoom(auth.getSelected());
+        chat.setSpeaker(auth.getAccount());
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        chat.setPosted(now);
+        
+        service.addChat(chat);
+        
         chatRoom.setContent("");
         
-        //TODO 再取得
+        // 以前より更新されたチャットを取得
+        List<Chat> added = service.findChatByRoom(auth.getSelected(), chatRoom.getLastPost());
+        
+        chatRoom.getChats().addAll(added);
+        chatRoom.setLastPost(added.get(added.size() - 1).getPosted());
     }
 }
