@@ -33,9 +33,12 @@ public class ChatRoomAction {
     @Inject
     private Service service;
     
-    public String prepareRoom(){
+    /**
+     * VIEW初期化時に実行し、チャットルームの一覧をviewScopeのオブジェクトに設定する。
+     */
+    public void prepareRoom(){
+        System.out.println("call");
         chatRoom.setRooms(service.allRooms());
-        return "chatroom";
     }
     
     /** 部屋を選択し、現在までの会話を取得する

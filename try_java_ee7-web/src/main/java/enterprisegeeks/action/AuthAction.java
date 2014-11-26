@@ -38,7 +38,7 @@ public class AuthAction {
         if (service.registerAccount(account)) {
             
             auth.setLoggedIn(true);
-            return "chatroom";
+            return "chatroom.xhtml?faces-redirect=true";
         } else {
             //エラーメッセージ設定 
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -61,6 +61,6 @@ public class AuthAction {
                 .getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
         
-        return "index";
+        return "index.xhtml?faces-redirect=true";
     }
 }

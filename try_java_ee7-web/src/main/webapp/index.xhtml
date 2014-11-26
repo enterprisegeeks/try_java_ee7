@@ -15,7 +15,7 @@
                     <h:messages style="color: red" /> 
                     <form class="login" jsf:id="form" >
                     
-                        <bs:input fgid="nameFg" name="name" label="名前" >
+                        <bs:input fgid="nameFg" name="name" label="名前">
                             <input type="text" jsf:id="name" jsf:value="#{auth.account.name}"
                                    class="form-control" placeholder="表示名を入力" >
                                 <f:ajax execute="name" render="nameFg" event="blur"/>

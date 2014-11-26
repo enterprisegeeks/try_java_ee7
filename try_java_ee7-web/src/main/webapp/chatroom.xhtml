@@ -5,13 +5,14 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:bs="http://xmlns.jcp.org/jsf/composite/bootstrap"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core">
     <body>
         <ui:composition template="WEB-INF/templates/main.xhtml">
-            
             <ui:define name="menu">
-                <f:event listener="#{chatRoomAction.prepareRoom()}" type="preRenderView" /> 
                
+                <f:metadata>
+                    <f:viewAction action="#{chatRoomAction.prepareRoom()}" onPostback="true" /> 
+                </f:metadata>
                 <form jsf:id="menuForm">
                 <ul class="nav nav-pills nav-stacked">
                     <li var="room" jsfc="ui:repeat" value="#{chatRoom.rooms}" class="#{room.id eq auth.selected.id ? 'active' : ''}">
@@ -20,25 +21,31 @@
                 </ul>
                 </form>
             </ui:define>
-            <ui:define name="main">
+            <ui:define name="main" id="main">
                 <h1>#{auth.selected.name}</h1>
-                
-                <div jsfc="ui:repeat" var="chat" value="#{chatRoom.chats}" class="media">
-                    <a class="media-left" href="#">
-                        <img src="#{chat.speaker.gravatar}"/>
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">#{chat.speaker.name}</h4>
-                        #{chat.content}
+                <div jsf:id="chatList" >
+                    <div jsfc="ui:repeat" var="chat" value="#{chatRoom.chats}" class="media">
+                        <a class="media-left" href="#">
+                            <img src="#{chat.speaker.gravatar}"/>
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">#{chat.speaker.name}</h4>
+                            #{chat.content}
+                        </div>
                     </div>
                 </div>
                 
-                <form jsf:id="postForm" jsf:rendered="#{auth.selected != null}"  >
-                    <bs:input fgid="contentFd" label="chat" name="content">
+                <form jsf:id="postForm" jsf:rendered="#{auth.selected != null}" >
+                    <bs:input fgid="contentFg" id="bsContent" label="chat" name="content">
                         <textarea jsf:id="content" jsf:value="#{chatRoom.content}" cols="6" rows="4"
-                                  class="form-control" placeholder="chat"></textarea>
-                        </bs:input>
-                    <h:commandButton value="post" action="#{chatRoomAction.chat()}" class="btn btn-default"/> 
+                                  class="form-control" placeholder="chat">
+                            <f:ajax render="contentFg" execute="content" event="blur"/>
+                        </textarea>
+                    </bs:input>
+                    
+                    <h:commandButton value="post" action="#{chatRoomAction.chat()}" class="btn btn-default">
+                            <f:ajax render=":chatList" execute="postForm:bsContent:content" />
+                    </h:commandButton> 
                 </form>
                 
             </ui:define>

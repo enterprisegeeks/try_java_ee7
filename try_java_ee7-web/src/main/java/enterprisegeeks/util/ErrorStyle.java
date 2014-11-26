@@ -13,7 +13,7 @@ import javax.inject.Named;
 
 /**
  *
- * @author kentaro.maeda
+ * ヴァリデーションエラー時に適用するセレクタを取得する。
  */
 @RequestScoped
 @Named

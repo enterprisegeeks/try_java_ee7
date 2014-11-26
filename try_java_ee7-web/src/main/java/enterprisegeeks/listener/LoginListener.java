@@ -5,11 +5,8 @@
  */
 package enterprisegeeks.listener;
 
-import enterprisegeeks.entity.Account;
 import enterprisegeeks.model.Auth;
-import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -36,7 +33,7 @@ public class LoginListener{
          ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler)
                 FacesContext.getCurrentInstance()
                     .getApplication().getNavigationHandler();
-            handler.performNavigation("index");
+            handler.performNavigation("index.xhtml?faces-redirect=true");
         }
     }
     
@@ -46,7 +43,7 @@ public class LoginListener{
             ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler)
                 FacesContext.getCurrentInstance()
                     .getApplication().getNavigationHandler();
-            handler.performNavigation("chatroom");
+            handler.performNavigation("chatroom.xhtml?faces-redirect=true");
         }
          
     }

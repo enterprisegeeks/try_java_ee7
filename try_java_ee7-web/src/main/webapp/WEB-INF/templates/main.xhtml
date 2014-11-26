@@ -5,8 +5,6 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <f:view transient="false">   
-        <f:event listener="#{loginListener.requireLogin}" type="preRenderView" />
     <h:head>
         <meta charset="UTF-8" />
         <h:outputStylesheet name="webjars/bootstrap/3.3.1/css/bootstrap.min-jsf.css" />
@@ -17,6 +15,8 @@
         <title>try chat</title>
     </h:head>
     <body>
+        <f:view transient="false">   
+            <f:event listener="#{loginListener.requireLogin}" type="preRenderView"  />
             <div id="navbar" class="navbar navbar-inverse">
                 <div class="container">
                     <div class="navbar-header">
@@ -61,6 +61,6 @@
                     </ui:insert>
                 </div>
             </div>
+        </f:view>
     </body>
-    </f:view>
 </html>
