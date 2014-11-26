@@ -2,26 +2,39 @@ Java EE7 サンプルアプリケーション
 -------------------------
 
 ## 概要
-Java EE7によるWebアプリケーションです。
+Java EE7によるWebアプリケーションです
 
 ## 目的
 Java EE7による簡単なWebアプリケーションを作成して、フルスタックなフレームワークとしての実力をみること。
 
-## 使用する技術
+## タグFinish-JSF　までに行ったこと
 + Java EE
   + JSF 2.2
-  + JPA 
+    + テンプレート
+    + 複合コンポーネント
+    + イベント・veiwAction
+    + Ajax
+  + CDI 1.1
+    + Request, View, Session各スコープの使用
+    + Transactionalの使用
+    + Producesの使用
+  + JPA
+    + エンティティの定義
+    + Persicetence.xmlからのスキーマ生成・初期データ投入
++ ユニットテスト
+  + CDIUnitによるテスト
+  + Mockitoによるテスト
+  + 埋め込みDBによるテスト
++ その他
+  + Bootstrap 3.1
+  + Web-jars
+
+## 今後利用を想定しているもの
   + EJB 3.1
     + JMS(できれば)
-  + CDI 1.1
   + JAX-RS
   + Web Socket
   + Batchサポート
-  + 組み込みコンテナ(単体テスト)
+  + 組み込みコンテナ
   + Concurrency(できれば)
-+ Web
-  + Bootstrap
-  + Web-jars
-+ データベース
-  + H2 による組み込みDB
 
