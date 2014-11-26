@@ -37,7 +37,6 @@ public class ChatRoomAction {
      * VIEW初期化時に実行し、チャットルームの一覧をviewScopeのオブジェクトに設定する。
      */
     public void prepareRoom(){
-        System.out.println("call");
         chatRoom.setRooms(service.allRooms());
     }
     
@@ -48,8 +47,9 @@ public class ChatRoomAction {
         auth.setSelected(room);
         List<Chat> added = service.findChatByRoom(auth.getSelected(), null);
         chatRoom.setChats(added);
+        
+        chatRoom.setContent("");
         if (!added.isEmpty()) {
-            
             chatRoom.setLastPost(added.get(added.size() -1).getPosted());
         }
     }
@@ -58,7 +58,7 @@ public class ChatRoomAction {
     public void chat(){
         
         Chat chat = new Chat();
-        chat.setContent(chatRoom.getContent());
+        chat.setContent(chatRoom.getContent().trim());
         chat.setRoom(auth.getSelected());
         chat.setSpeaker(auth.getAccount());
         Timestamp now = new Timestamp(System.currentTimeMillis());

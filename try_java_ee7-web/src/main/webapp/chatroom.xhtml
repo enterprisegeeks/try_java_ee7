@@ -30,11 +30,12 @@
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">#{chat.speaker.name}</h4>
-                            #{chat.content}
+                            <h:outputText value="#{chat.content}" />
                         </div>
                     </div>
+                    
                 </div>
-                
+                <div>
                 <form jsf:id="postForm" jsf:rendered="#{auth.selected != null}" >
                     <bs:input fgid="contentFg" id="bsContent" label="chat" name="content">
                         <textarea jsf:id="content" jsf:value="#{chatRoom.content}" cols="6" rows="4"
@@ -44,9 +45,10 @@
                     </bs:input>
                     
                     <h:commandButton value="post" action="#{chatRoomAction.chat()}" class="btn btn-default">
-                            <f:ajax render=":chatList" execute="postForm:bsContent:content" />
+                            <f:ajax render=":chatList postForm:bsContent:content" execute="postForm:bsContent:content" />
                     </h:commandButton> 
                 </form>
+                </div>
                 
             </ui:define>
         </ui:composition>
