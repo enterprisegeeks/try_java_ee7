@@ -21,4 +21,14 @@ public class PrivateUtil {
             throw new RuntimeException(e);
         }
     }
+    
+    public static <T> T getFiled(Object obj, String name, Class<T> clazz) {
+        try {
+            Field f = obj.getClass().getDeclaredField(name);
+            f.setAccessible(true);
+            return (T)f.get(obj);
+        } catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

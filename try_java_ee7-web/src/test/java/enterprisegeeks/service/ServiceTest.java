@@ -5,27 +5,23 @@
  */
 package enterprisegeeks.service;
 
-import enterprisegeeks.entity.Account;
-import java.io.File;
-import java.util.Properties;
-import javax.ejb.embeddable.EJBContainer;
-import javax.inject.Inject;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import enterprisegeeks.entity.Room;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import javax.naming.Context;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.transaction.UserTransaction;
-import static org.junit.Assert.*;
-import org.junit.runner.RunWith;
 import util.PrivateUtil;
 
 /**
  * Serviceのテスト
+ * EntityManagerへの依存性を自力で解消する方法
  */
 public class ServiceTest {
     
@@ -59,8 +55,26 @@ public class ServiceTest {
     
     @Test
     public void testRegisterAccount() throws Exception{     
+        // prepare
+        Room room = new Room();
+        room.setId(1);
+        room.setName("test");
+        Room room2 = new Room();
+        room2.setId(2);
+        room2.setName("test2");
+        em.persist(room);
+        em.persist(room2);
         
-        target.registerAccount(new Account());
+        em.flush();
+        
+        // TEST
+        List<Room> act = target.allRooms();
+        
+        //assert
+        assertThat(act.size(), is(2));
+        assertThat(act.get(1).getName(), is("test2"));
+        
+        
       
     }
     

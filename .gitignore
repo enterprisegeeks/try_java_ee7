@@ -1,2 +1,4 @@
 /try_java_ee7-web/target/
 try_java_ee7-web/src/main/webapp/memo.html
+try_java_ee7-web/derby.log
+try_java_ee7-web/faces-config.NavData

@@ -9,6 +9,7 @@ import enterprisegeeks.entity.Account;
 import enterprisegeeks.model.Auth;
 import enterprisegeeks.service.Service;
 import enterprisegeeks.util.Gravater;
+import enterprisegeeks.util.MessageUtil;
 import java.util.ResourceBundle;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -29,6 +30,9 @@ public class AuthAction {
     @Inject
     private Service service;
     
+    @Inject
+    private MessageUtil message;
+    
     
     /** 初期画面からログインする */
     public String enter() {
@@ -41,10 +45,8 @@ public class AuthAction {
             return "chatroom.xhtml?faces-redirect=true";
         } else {
             //エラーメッセージ設定 
-            FacesContext fc = FacesContext.getCurrentInstance();
-            String message = fc.getApplication().getResourceBundle(fc, "msg")
-                    .getString("sameaccount.exists");
-            fc.addMessage("error", new FacesMessage(message));
+            message.addMessage("error","sameaccount.exists");
+            // 画面遷移しないため、nullを返す。
             return null;
         }
     }
