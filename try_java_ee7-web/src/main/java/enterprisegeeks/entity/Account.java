@@ -6,6 +6,7 @@
 package enterprisegeeks.entity;
 
 import java.io.Serializable;
+import javax.enterprise.inject.Vetoed;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,6 +20,7 @@ import org.hibernate.validator.constraints.Email;
 /**
  * ユーザーアカウント
  */
+@Vetoed //CDI対象外
 @Entity
 @NamedQueries(
 @NamedQuery(name = "Account.nameOrEmali", query = "select a from Account a where a.name = :name or a.email = :email")

@@ -7,6 +7,7 @@ package enterprisegeeks.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.enterprise.inject.Vetoed;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import javax.persistence.ManyToOne;
 /**
  * 発言エンティティ
  */
+@Vetoed //CDI対象外
 @Entity
 public class Chat implements Serializable {
     

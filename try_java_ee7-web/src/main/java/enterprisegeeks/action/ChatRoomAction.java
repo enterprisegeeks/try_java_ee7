@@ -10,9 +10,10 @@ import enterprisegeeks.entity.Room;
 import enterprisegeeks.model.Auth;
 import enterprisegeeks.model.ChatRoom;
 import enterprisegeeks.service.Service;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -21,8 +22,8 @@ import javax.transaction.Transactional;
  *
  */
 @Named
-@RequestScoped
-public class ChatRoomAction {
+@ViewScoped //viewScopeは管理Beanのみにしたほうが良い気がする。
+public class ChatRoomAction implements Serializable{
     
     @Inject
     private Auth auth;
@@ -73,5 +74,9 @@ public class ChatRoomAction {
         
         chatRoom.getChats().addAll(added);
         chatRoom.setLastPost(added.get(added.size() - 1).getPosted());
+    }
+
+    public ChatRoom getChatRoom() {
+        return chatRoom;
     }
 }

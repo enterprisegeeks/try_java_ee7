@@ -15,7 +15,7 @@
                 </f:metadata>
                 <form jsf:id="menuForm">
                 <ul class="nav nav-pills nav-stacked">
-                    <li var="room" jsfc="ui:repeat" value="#{chatRoom.rooms}" class="#{room.id eq auth.selected.id ? 'active' : ''}">
+                    <li var="room" jsfc="ui:repeat" value="#{chatRoomAction.chatRoom.rooms}" class="#{room.id eq auth.selected.id ? 'active' : ''}">
                         <h:commandLink action="#{chatRoomAction.selectRoom(room)}" >#{room.name}</h:commandLink>
                     </li>
                 </ul>
@@ -24,7 +24,7 @@
             <ui:define name="main" id="main">
                 <h1>#{auth.selected.name}</h1>
                 <div jsf:id="chatList" >
-                    <div jsfc="ui:repeat" var="chat" value="#{chatRoom.chats}" class="media">
+                    <div jsfc="ui:repeat" var="chat" value="#{chatRoomAction.chatRoom.chats}" class="media">
                         <a class="media-left" href="#">
                             <img src="#{chat.speaker.gravatar}"/>
                         </a>
@@ -38,7 +38,7 @@
                 <div>
                 <form jsf:id="postForm" jsf:rendered="#{auth.selected != null}" >
                     <bs:input fgid="contentFg" id="bsContent" label="chat" name="content">
-                        <textarea jsf:id="content" jsf:value="#{chatRoom.content}" cols="6" rows="4"
+                        <textarea jsf:id="content" jsf:value="#{chatRoomAction.chatRoom.content}" cols="6" rows="4"
                                   class="form-control" placeholder="chat">
                             <f:ajax render="contentFg" execute="content" event="blur"/>
                         </textarea>

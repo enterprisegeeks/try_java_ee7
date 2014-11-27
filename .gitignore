@@ -4,3 +4,4 @@ try_java_ee7-web/derby.log
 try_java_ee7-web/faces-config.NavData
 try_java_ee7-ear/target/
 try_java_ee7-ejb/target/
+derby.log

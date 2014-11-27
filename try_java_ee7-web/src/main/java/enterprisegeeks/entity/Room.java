@@ -6,6 +6,7 @@
 package enterprisegeeks.entity;
 
 import java.io.Serializable;
+import javax.enterprise.inject.Vetoed;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import javax.persistence.NamedQuery;
 /**
  * チャットルーム
  */
+@Vetoed //CDI対象外
 @Entity
 @NamedQueries(@NamedQuery(name = "Room.all", query = "select r from Room r order by r.id"))
 public class Room implements Serializable {

@@ -11,16 +11,14 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
+import javax.enterprise.context.Dependent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * ChatRoom viewで使用するデータ構造
  */
-@ViewScoped
-@Named
+@Dependent
 public class ChatRoom implements Serializable{
     
     /** チャットルーム一覧 */
@@ -67,4 +65,6 @@ public class ChatRoom implements Serializable{
     public void setLastPost(Timestamp lastPost) {
         this.lastPost = lastPost;
     }
+    
+    
 }
