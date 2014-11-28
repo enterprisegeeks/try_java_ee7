@@ -8,9 +8,11 @@ package enterprisegeeks.service;
 import enterprisegeeks.entity.Account;
 import enterprisegeeks.entity.Chat;
 import enterprisegeeks.entity.Room;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -22,7 +24,7 @@ import javax.persistence.criteria.Root;
  * 永続層周りの機能を提供
  */
 @Dependent
-public class Service {
+public class Service implements Serializable{
     
     @Inject
     private EntityManager em;
