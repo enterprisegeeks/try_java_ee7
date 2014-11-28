@@ -23,6 +23,7 @@ import org.jglue.cdiunit.InRequestScope;
 import org.jglue.cdiunit.InSessionScope;
 import org.junit.After;
 import org.junit.runner.RunWith;
+import util.PrivateUtil;
 
 /**
  * ChatRoomActionのテスト
@@ -48,13 +49,10 @@ public class ChatRoomActionTest {
     private Auth auth;
     
     @Inject
-    private ChatRoom chatroom;
-    
-    @Inject
     private EntityManager em;
     
-    @Before
-    @InRequestScope // テストメソッドと同じスコープを指定する必要がある。
+    //@Before
+    //@InSessionScope // ViewScopeの場合、メソッドを分けると上手く行かない。
     public void setUp() {
         em.getTransaction().begin();
         Account acc = new Account();
@@ -71,9 +69,10 @@ public class ChatRoomActionTest {
         auth.setAccount(acc);
         auth.setLoggedIn(true);
         auth.setSelected(room);
-        System.out.println(room.getId());
+        
+        //PrivateUtil.setField(target, "chatRoom", new ChatRoom());
     }
-    @After
+    @After 
     public void tearDown(){
         em.getTransaction().rollback();
     }
@@ -81,14 +80,14 @@ public class ChatRoomActionTest {
     @Test
     @InRequestScope // スコープをあわせる
     public void testChat() throws Exception{
-        //setUp();
-        chatroom.setContent("chat");
+        setUp();
+        target.getChatRoom().setContent("chat");
         
         target.chat();
         
-        assertThat(chatroom.getChats().size(), is(1));
-        assertThat(chatroom.getChats().get(0).getContent(), is("chat"));
-        assertThat(chatroom.getLastPost(), notNullValue());
+        assertThat(target.getChatRoom().getChats().size(), is(1));
+        assertThat(target.getChatRoom().getChats().get(0).getContent(), is("chat"));
+        assertThat(target.getChatRoom().getLastPost(), notNullValue());
       
     }
     
