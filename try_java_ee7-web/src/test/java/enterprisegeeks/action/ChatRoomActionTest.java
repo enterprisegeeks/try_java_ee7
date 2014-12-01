@@ -10,26 +10,25 @@ import static org.hamcrest.CoreMatchers.*;
 import enterprisegeeks.entity.Account;
 import enterprisegeeks.entity.Room;
 import enterprisegeeks.model.Auth;
-import enterprisegeeks.model.ChatRoom;
+import enterprisegeeks.service.ServiceImpl;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import org.junit.Before;
 import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.InRequestScope;
-import org.jglue.cdiunit.InSessionScope;
 import org.junit.After;
 import org.junit.runner.RunWith;
-import util.PrivateUtil;
 
 /**
  * ChatRoomActionのテスト
  * CDIRunnerを使用し、依存するbeanを全て解消する。
  */
 @RunWith(CdiRunner.class)
+@AdditionalClasses(ServiceImpl.class) //注入する実装クラスが異なる場合は、アノテーションで指定する。
 public class ChatRoomActionTest {
     /** テスト用のEntityManegaerのファクトリメソッド。
      * @Inject em に自動でインジェクションされる。

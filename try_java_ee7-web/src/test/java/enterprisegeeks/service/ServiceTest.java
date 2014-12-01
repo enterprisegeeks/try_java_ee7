@@ -41,7 +41,7 @@ public class ServiceTest {
     @Before
     public void setUp() throws Exception{
         em = Persistence.createEntityManagerFactory("stand_alone").createEntityManager();
-        target = new Service();
+        target = new ServiceImpl();
         PrivateUtil.setField(target, "em", em);
         tx = em.getTransaction();
         tx.begin();
