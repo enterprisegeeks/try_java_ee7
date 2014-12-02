@@ -12,7 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -25,6 +27,7 @@ import org.hibernate.validator.constraints.Email;
 @NamedQueries(
 @NamedQuery(name = "Account.nameOrEmali", query = "select a from Account a where a.name = :name or a.email = :email")
 )
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "email"}))
 public class Account implements Serializable{
     
     @NotNull(message = "{required}")
@@ -36,7 +39,7 @@ public class Account implements Serializable{
     @Email(message = "{email.invalid}")
     @NotNull(message = "{required}")
     @Size(message = "{required}", min = 1)
-    @Column(length = 200, unique = true, nullable = false)
+    @Column(length = 200, nullable = false)
     private String email;
     
     @Column(length = 32, nullable = true )
