@@ -15,19 +15,19 @@
         <div class="container">
         <div class="jumbotron">
             <h1>サンプルチャット</h1>
-                <span id="error"></span>
-                <form id="form"  method="post" action="../rs/join" class="login">
-                    <div id="nameFg" class="form-group ">
-                        <label for="name" class="control-label">名前</label>
+                <form id="form" class="login" v-on="submit:join">
+                    <span id="error">{{error_message}}</span>
+                    <div id="nameFg" class="form-group {{name_error_css}}">
+                        <label for="name" class="control-label">名前 <span>{{name_message}}</span></label>
                         <input id="name" name="name"  placeholder="表示名を入力" 
                                type="text" class="form-control" v-model="name" />
                     </div>
-                    <div id="emailFg" class="form-group">
-                        <label for="email" class="control-label">Gravatarメールアドレス</label>
+                    <div id="emailFg" class="form-group {{email_error_css}}">
+                        <label for="email" class="control-label ">Gravatarメールアドレス <span>{{email_message}}</span></label>
                         <input id="email" name="email"  placeholder="Gravatarのイメージを使用する場合入力" type="email"
                                class="form-control" v-model="email" />
                     </div>
-                    <input type="button" value="join" class="btn btn-default" v-on="click:join"  />
+                    <input type="submit" value="join" class="btn btn-default"   />
                 </form>
                 <div>
                     <a href="../" class="btn btn-link">JSF版へ</a>
@@ -40,15 +40,41 @@
                 el : "#form",
                 data : {
                     name :"" ,
-                    email :""
+                    email :"",
+                    name_message :"",
+                    email_message : "",
+                    name_error_css : "",
+                    email_error_css :"",
+                    error_message :""
                 },
                 methods:{
-                    join: function(){
-                        console.log("run");
+                    join: function(e){
+                        e.preventDefault();
+                        var $data = this.$data;
+                        Object.keys($data).forEach(function(prop){
+                            if (prop.indexOf("_message")>0 || prop.indexOf("_error_css")>0) {
+                                $data[prop] = "";
+                            }
+                        });
                         $.ajax({url:"../rs/join", 
-                                data:JSON.stringify({"name":this.name, "email":this.email}),
+                                data:JSON.stringify({"name":$data.name, "email":$data.email}),
                                 method:"POST", contentType: 'application/json'}
-                            ).success(function(data){alert(data)})
+                            ).success(function(data){alert(data);}
+                            ).fail(function(jqXhr, status, thrown){
+                                console.log("rune");
+                                if (jqXhr.status !== 400) {
+                                    alert(jqXhr.responseText);
+                                } else {
+                                    var data = jqXhr.responseJSON;
+                                    data.messages.forEach(function(e){
+                                        
+                                        $data[e.key +"_message"] = e.message;
+                                        if (e.key !== "error") {
+                                            $data[e.key + "_error_css"] = "has-error";
+                                        }
+                                    });
+                                }
+                            }) 
                     }
                 }
             });
