@@ -8,9 +8,11 @@ package enterprisegeeks.service;
 import enterprisegeeks.entity.Account;
 import enterprisegeeks.entity.Chat;
 import enterprisegeeks.entity.Room;
+import enterprisegeeks.util.Gravater;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -44,11 +46,23 @@ public class ServiceImpl implements Serializable,Service{
             
         } catch(NoResultException e) {
             // 既存アカウントが無い場合登録
+            accout.setGravaterHash(Gravater.md5Hex(accout.getEmail()));
             em.persist(accout);
         }
         return true;
         
     }
+
+    @Override
+    public String publishToken(Account account) {
+        em.merge(account);
+        
+        String token = UUID.randomUUID().toString();
+        account.setToken(token);
+        return token;
+    }
+    
+    
     
     /** チャットルーム一覧 */
     @Override

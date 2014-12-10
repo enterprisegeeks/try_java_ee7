@@ -8,17 +8,50 @@
         <link rel="stylesheet" href="../resources/css/style.css" />
         <script type='text/javascript' src="../webjars/jquery/2.1.1/jquery.min.js"></script>
         <script type='text/javascript' src="../webjars/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        <script type='text/javascript' src="../webjars/baconjs/0.7.18/Bacon.min.js"></script>
+        <script type='text/javascript' src="../webjars/vue/0.11.0/vue.min.js"></script>
         
     </head>
       <body>
+        <div class="container">
         <div class="jumbotron">
-            main contents
-            
-            
+            <h1>サンプルチャット</h1>
+                <span id="error"></span>
+                <form id="form"  method="post" action="../rs/join" class="login">
+                    <div id="nameFg" class="form-group ">
+                        <label for="name" class="control-label">名前</label>
+                        <input id="name" name="name"  placeholder="表示名を入力" 
+                               type="text" class="form-control" v-model="name" />
+                    </div>
+                    <div id="emailFg" class="form-group">
+                        <label for="email" class="control-label">Gravatarメールアドレス</label>
+                        <input id="email" name="email"  placeholder="Gravatarのイメージを使用する場合入力" type="email"
+                               class="form-control" v-model="email" />
+                    </div>
+                    <input type="button" value="join" class="btn btn-default" v-on="click:join"  />
+                </form>
                 <div>
                     <a href="../" class="btn btn-link">JSF版へ</a>
                 </div>
         </div>
+        </div>
+          
+          <script>
+            var model = new Vue({
+                el : "#form",
+                data : {
+                    name :"" ,
+                    email :""
+                },
+                methods:{
+                    join: function(){
+                        console.log("run");
+                        $.ajax({url:"../rs/join", 
+                                data:JSON.stringify({"name":this.name, "email":this.email}),
+                                method:"POST", contentType: 'application/json'}
+                            ).success(function(data){alert(data)})
+                    }
+                }
+            });
+        </script>
     </body>
 </html>

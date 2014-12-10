@@ -19,6 +19,9 @@ public interface Service{
     
     public boolean registerAccount(Account accout);
     
+    /** ログイン用トークン発行 */
+    public String publishToken(Account account);
+    
     /** チャットルーム一覧 */
     public List<Room> allRooms();
     

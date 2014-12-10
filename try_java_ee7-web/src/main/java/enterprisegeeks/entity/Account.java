@@ -45,6 +45,9 @@ public class Account implements Serializable{
     @Column(length = 32, nullable = true )
     private String gravaterHash;
     
+    @Column(length = 40, nullable = true )
+    private String token;
+    
     public String getName() {
         return name;
     }
@@ -71,5 +74,13 @@ public class Account implements Serializable{
     
     public String getGravatar() {
         return "https://www.gravatar.com/avatar/" + gravaterHash;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
