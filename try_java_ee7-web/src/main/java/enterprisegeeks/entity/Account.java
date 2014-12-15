@@ -24,8 +24,9 @@ import org.hibernate.validator.constraints.Email;
  */
 @Vetoed //CDI対象外
 @Entity
-@NamedQueries(
-@NamedQuery(name = "Account.nameOrEmali", query = "select a from Account a where a.name = :name or a.email = :email")
+@NamedQueries({
+    @NamedQuery(name = "Account.nameOrEmali", query = "select a from Account a where a.name = :name or a.email = :email")
+    , @NamedQuery(name = "Account.byToken", query="select a from Account a where a.token = :token")}
 )
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "email"}))
 public class Account implements Serializable{

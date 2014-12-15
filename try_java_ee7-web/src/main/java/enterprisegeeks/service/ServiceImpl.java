@@ -14,7 +14,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -25,7 +24,7 @@ import javax.persistence.criteria.Root;
 /**
  * 永続層周りの機能を提供
  */
-@RequestScoped // IFと実装クラスを分ける場合、実装クラス側にCDIアノテーション付与。
+@Dependent // IFと実装クラスを分ける場合、実装クラス側にCDIアノテーション付与。
 public class ServiceImpl implements Serializable,Service{
     
     @Inject
@@ -33,32 +32,28 @@ public class ServiceImpl implements Serializable,Service{
     
     @Override
     public boolean registerAccount(Account accout) {
-        
-        try {
-            Account exists = em.createNamedQuery("Account.nameOrEmali", Account.class)
+        List<Account> exists = em.createNamedQuery("Account.nameOrEmali", Account.class)
                 .setParameter("name", accout.getName())
-                .setParameter("email", accout.getEmail()).getSingleResult();
+                .setParameter("email", accout.getEmail()).getResultList();
             
-            // 取得できた場合、名前とメールが一致しない場合はエラーとする。
-            if (!exists.getName().equals(accout.getName()) || !exists.getEmail().equals(accout.getEmail())) {
-                return false;
-            }
-            
-        } catch(NoResultException e) {
+        if (exists.isEmpty()) {
             // 既存アカウントが無い場合登録
             accout.setGravaterHash(Gravater.md5Hex(accout.getEmail()));
             em.persist(accout);
+            return true;
+        }else {
+            // 取得できた場合、名前とメールが一致しない場合はエラーとする。
+            return exists.stream().anyMatch(a ->
+                    a.getEmail().equals(accout.getEmail()) && a.getName().equals(accout.getName()));
         }
-        return true;
-        
     }
 
     @Override
     public String publishToken(Account account) {
-        em.merge(account);
-        
+        Account entity = em.find(Account.class, account.getName());
+        System.out.println("hit" + entity.getName());
         String token = UUID.randomUUID().toString();
-        account.setToken(token);
+        entity.setToken(token);
         return token;
     }
     
@@ -93,5 +88,13 @@ public class ServiceImpl implements Serializable,Service{
     public void addChat(Chat chat) {
         em.persist(chat);
     }
+
+    @Override
+    public Account getAccountByToken(String token) {
+        return em.createNamedQuery("Account.byToken", Account.class)
+                   .setParameter("token", token)
+                   .getSingleResult();
+    }
+    
     
 }

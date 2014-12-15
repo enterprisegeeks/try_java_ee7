@@ -3,4 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
        bean-discovery-mode="annotated">
+        <!-- bean-discovery-mode:all-全てのクラスをCDI対象にする。
+                            何でも対象になるので、対象外とするには@Vendedをつけないといけない。
+               anotated-アノテーションが付いたクラスをCDI対象にする。
+               　　　　　適当なBeanでも@Dependendとつけないといけない。
+　    -->
+    <interceptors>
+        <class>enterprisegeeks.rest.WithAuthInterceptor</class>
+    </interceptors>
 </beans>

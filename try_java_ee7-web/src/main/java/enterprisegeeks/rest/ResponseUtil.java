@@ -7,22 +7,27 @@ package enterprisegeeks.rest;
 
 import enterprisegeeks.rest.dto.Messages;
 import java.util.ResourceBundle;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
  * 
  */
+@ApplicationScoped
 public class ResponseUtil{
+    
+    @Inject
+    @Message
+    private ResourceBundle messages;
     
     /*
      * バリデーションエラー時に通知するレスポンスを作成する。
     */
-    public static Response buildValidErrorResponce(String key, String messageKey) {
+    public Response buildValidErrorResponce(String key, String messageKey) {
         
-        // message
-        ResourceBundle rb = ResourceBundle.getBundle("msg");
-        String message = rb.getString(messageKey);
+        String message = messages.getString(messageKey);
         Messages ms = new Messages();
         ms.addMessage(key, message);
         return Response.status(400).type(MediaType.APPLICATION_JSON).entity(ms).build();

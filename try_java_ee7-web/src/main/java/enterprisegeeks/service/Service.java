@@ -30,4 +30,6 @@ public interface Service{
     
     public void addChat(Chat chat);
     
+    public Account getAccountByToken(String token);
+    
 }

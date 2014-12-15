@@ -26,10 +26,13 @@ import javax.ws.rs.core.MediaType;
 @Path("join")
 @RequestScoped
 @Transactional
-public class Join {
+public class JoinResource {
  
     @Inject
     private Service service;
+    
+    @Inject
+    private ResponseUtil util;
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -39,7 +42,7 @@ public class Join {
             return new Token(service.publishToken(account));
         } else {
             
-            throw new WebApplicationException(ResponseUtil.buildValidErrorResponce("error", "sameaccount.exists"));
+            throw new WebApplicationException(util.buildValidErrorResponce("error", "sameaccount.exists"));
         }
     }
 }

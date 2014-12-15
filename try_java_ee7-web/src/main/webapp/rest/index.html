@@ -9,6 +9,7 @@
         <script type='text/javascript' src="../webjars/jquery/2.1.1/jquery.min.js"></script>
         <script type='text/javascript' src="../webjars/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script type='text/javascript' src="../webjars/vue/0.11.0/vue.min.js"></script>
+        <script type='text/javascript' src="../resources/js/common.js"></script>
         
     </head>
       <body>
@@ -16,7 +17,7 @@
         <div class="jumbotron">
             <h1>サンプルチャット</h1>
                 <form id="form" class="login" v-on="submit:join">
-                    <span id="error">{{error_message}}</span>
+                    <span id="error" >{{error_message}}</span>
                     <div id="nameFg" class="form-group {{name_error_css}}">
                         <label for="name" class="control-label">名前 <span>{{name_message}}</span></label>
                         <input id="name" name="name"  placeholder="表示名を入力" 
@@ -59,9 +60,18 @@
                         $.ajax({url:"../rs/join", 
                                 data:JSON.stringify({"name":$data.name, "email":$data.email}),
                                 method:"POST", contentType: 'application/json'}
-                            ).success(function(data){alert(data);}
-                            ).fail(function(jqXhr, status, thrown){
-                                console.log("rune");
+                            ).success(function(data){
+                                sessionStorage.setItem("token", data.token);
+                                var next = "../rs/chatroom";
+                                
+                                 $.ajax({url:next, 
+                                    method:"GET", 
+                                    headers:{"authorization":data.token}}
+                                ).success(function(data){
+                                    history.pushState(location.href, null, "../rs/chatroom")
+                                    $("html").html(data)
+                                })
+                            }).fail(function(jqXhr, status, thrown){
                                 if (jqXhr.status !== 400) {
                                     alert(jqXhr.responseText);
                                 } else {

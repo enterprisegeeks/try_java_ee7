@@ -5,33 +5,17 @@
  */
 package enterprisegeeks.rest;
 
-import java.util.Set;
-import javax.transaction.RollbackException;
-import javax.ws.rs.core.Application;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.mvc.jsp.JspMvcFeature;
 
 /**
  *
  */
 @javax.ws.rs.ApplicationPath("rs")
-public class ApplicationConfig extends Application {
+public class ApplicationConfig extends ResourceConfig {
 
-    @Override
-    public Set<Class<?>> getClasses() {
-        Set<Class<?>> resources = new java.util.HashSet<>();
-        addRestResourceClasses(resources);
-        return resources;
+    public ApplicationConfig() {
+        this.packages("enterprisegeeks.rest","enterprisegeeks.rest.resource");
+        this.register(JspMvcFeature.class);
     }
-
-    /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
-     */
-    private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(enterprisegeeks.rest.BeanValidationExceptionMapper.class);
-        resources.add(enterprisegeeks.rest.RollbackExceptionMapper.class);
-        resources.add(enterprisegeeks.rest.resource.Join.class);
-    }
-    
 }
