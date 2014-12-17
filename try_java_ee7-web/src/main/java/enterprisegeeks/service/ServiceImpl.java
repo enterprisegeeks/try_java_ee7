@@ -91,9 +91,11 @@ public class ServiceImpl implements Serializable,Service{
 
     @Override
     public Account getAccountByToken(String token) {
-        return em.createNamedQuery("Account.byToken", Account.class)
+        Account ac = em.createNamedQuery("Account.byToken", Account.class)
                    .setParameter("token", token)
                    .getSingleResult();
+        em.detach(ac);
+        return ac;
     }
     
     

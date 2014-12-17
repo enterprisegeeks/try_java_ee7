@@ -15,7 +15,7 @@
       <body>
         <div class="container">
         <div class="jumbotron">
-            <h1>サンプルチャット</h1>
+            <h1>サンプルチャット JAX-RS</h1>
                 <form id="form" class="login" v-on="submit:join">
                     <span id="error" >{{error_message}}</span>
                     <div id="nameFg" class="form-group {{name_error_css}}">
@@ -69,7 +69,7 @@
                                     headers:{"authorization":data.token}}
                                 ).success(function(data){
                                     history.pushState(location.href, null, "../rs/chatroom")
-                                    $("html").html(data)
+                                    $("body").html(data)
                                 })
                             }).fail(function(jqXhr, status, thrown){
                                 if (jqXhr.status !== 400) {

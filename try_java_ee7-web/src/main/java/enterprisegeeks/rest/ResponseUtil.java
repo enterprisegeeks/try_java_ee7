@@ -5,6 +5,7 @@
  */
 package enterprisegeeks.rest;
 
+import enterprisegeeks.rest.anotation.Message;
 import enterprisegeeks.rest.dto.Messages;
 import java.util.ResourceBundle;
 import javax.enterprise.context.ApplicationScoped;

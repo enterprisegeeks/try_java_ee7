@@ -5,7 +5,10 @@
  */
 package enterprisegeeks.rest;
 
+import enterprisegeeks.rest.anotation.Message;
+import enterprisegeeks.rest.anotation.WithAuth;
 import enterprisegeeks.entity.Account;
+import enterprisegeeks.rest.dto.Authed;
 import enterprisegeeks.service.Service;
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -39,6 +42,10 @@ public class WithAuthInterceptor implements Serializable{
     @Inject @Message
     private ResourceBundle message;
     
+    @Inject
+    private Authed authed;
+    
+    
     @AroundInvoke
     public Object invoke(InvocationContext ic) throws Exception{
         if (req == null) {
@@ -55,23 +62,10 @@ public class WithAuthInterceptor implements Serializable{
         } catch(EntityNotFoundException ex) {
             forbidden();
         }
-        
-        setAccountToParamater(ic, account);
+        // 後続の処理で使用するため、アカウントを設定。
+        authed.setAccount(account);
         
         return ic.proceed();
-    }
-    /** メソッドの引数のうち、Accountクラスの引数を置換する。 */
-    private void setAccountToParamater(InvocationContext ic, Account account) {
-        
-        Class[] methodParamTypes = ic.getMethod().getParameterTypes();
-        Object[] params = ic.getParameters();
-        for(int i = 0; i < methodParamTypes.length; i++) {
-            if (methodParamTypes[i] == Account.class) {
-                params[i] = account;
-            }
-        }
-        ic.setParameters(params);
-        
     }
     
     private void forbidden() {
