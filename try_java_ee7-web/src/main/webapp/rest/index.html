@@ -36,58 +36,6 @@
         </div>
         </div>
           
-          <script>
-            var model = new Vue({
-                el : "#form",
-                data : {
-                    name :"" ,
-                    email :"",
-                    name_message :"",
-                    email_message : "",
-                    name_error_css : "",
-                    email_error_css :"",
-                    error_message :""
-                },
-                methods:{
-                    join: function(e){
-                        e.preventDefault();
-                        var $data = this.$data;
-                        Object.keys($data).forEach(function(prop){
-                            if (prop.indexOf("_message")>0 || prop.indexOf("_error_css")>0) {
-                                $data[prop] = "";
-                            }
-                        });
-                        $.ajax({url:"../rs/join", 
-                                data:JSON.stringify({"name":$data.name, "email":$data.email}),
-                                method:"POST", contentType: 'application/json'}
-                            ).success(function(data){
-                                sessionStorage.setItem("token", data.token);
-                                var next = "../rs/chatroom";
-                                
-                                 $.ajax({url:next, 
-                                    method:"GET", 
-                                    headers:{"authorization":data.token}}
-                                ).success(function(data){
-                                    history.pushState(location.href, null, "../rs/chatroom")
-                                    $("body").html(data)
-                                })
-                            }).fail(function(jqXhr, status, thrown){
-                                if (jqXhr.status !== 400) {
-                                    alert(jqXhr.responseText);
-                                } else {
-                                    var data = jqXhr.responseJSON;
-                                    data.messages.forEach(function(e){
-                                        
-                                        $data[e.key +"_message"] = e.message;
-                                        if (e.key !== "error") {
-                                            $data[e.key + "_error_css"] = "has-error";
-                                        }
-                                    });
-                                }
-                            }) 
-                    }
-                }
-            });
-        </script>
+        <script type='text/javascript' src="../resources/js/vm_index.js"></script>
     </body>
 </html>
