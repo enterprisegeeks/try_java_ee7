@@ -35,10 +35,11 @@ public class Chat implements Serializable {
     private Account speaker;
     
     /** 内容 */
-    @Column(length = 200)
+    @Column(length = 200, nullable = false)
     private String content;
 
     /** 投稿時刻 */
+    @Column(nullable = false)
     private Timestamp posted;
     
     public long getId() {

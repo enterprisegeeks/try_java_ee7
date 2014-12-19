@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type='text/javascript' src="../webjars/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            if (!sessionStorage.token) {
+                location.href ="index.html"
+            }
+            $.ajax({url:"../rs/chatroom", 
+                method:"GET", 
+                headers:{"authorization":sessionStorage.token}
+            }).success(function(data){
+                $("body").html(data);
+            });
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

@@ -1,3 +1,11 @@
+
+$(window).on("load",function(event){
+    
+    if (sessionStorage.token) {
+        location.href ="chatroom.html"
+    }   
+})
+
 // index.html Vue model用のjs
 var model = new Vue({
     el : "#form",
@@ -25,16 +33,7 @@ var model = new Vue({
                     vm:function(){ return $data} }
             ).success(function(data){
                 sessionStorage.setItem("token", data.token);
-                var next = "../rs/chatroom";
-
-                 $.ajax({url:next, 
-                    method:"GET", 
-                    headers:{"authorization":data.token}
-                }
-                ).success(function(data){
-                    history.pushState(location.href, null, "../rs/chatroom");
-                    $("body").html(data);
-                });
+                location.href ="chatroom.html"
             });
         }
     }

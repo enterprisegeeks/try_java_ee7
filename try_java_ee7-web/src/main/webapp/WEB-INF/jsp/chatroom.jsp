@@ -29,14 +29,14 @@
                     </div>
                 </div>
                 <div class="navbar-right">
-                    <input type="button" class="btn btn-default" value="logout" />
+                    <input id="logout" type="button" class="btn btn-default" value="logout" />
                 </div>
             </div>
         </div>
-            <div class="container">
+            <div class="container" id="comp">
                 <div  class="col-md-3">
                     <p>select chat room.</p>
-                    <ul id="menu" class="nav nav-pills nav-stacked">
+                    <ul id="menu" class="nav nav-pills nav-stacked" v-component="menu">
                         <li class="{{select ? 'active' : ''}}"
                             v-repeat="rooms" v-on="click:selectMenu($event,$index)">
                             <a href="#">{{name}}</a>
@@ -44,7 +44,7 @@
                     </ul>
                     
                 </div>
-                <div id="main" class="col-md-9" v-show="open">
+                <div id="main" class="col-md-9" v-show="open"  v-component="main">
                     <h1>{{roomName}}</h1>
                     <div>
                         <div v-repeat="chats" class="media">
