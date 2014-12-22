@@ -9,10 +9,17 @@ import enterprisegeeks.entity.Account;
 import enterprisegeeks.entity.Chat;
 import enterprisegeeks.entity.Room;
 import enterprisegeeks.util.Gravater;
+import enterprisegeeks.websocket.ChatNotifyEndPoint;
+import enterprisegeeks.websocket.WsClient;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -20,6 +27,11 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.websocket.ContainerProvider;
+import javax.websocket.DeploymentException;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
+import javax.ws.rs.WebApplicationException;
 
 /**
  * 永続層周りの機能を提供
@@ -29,6 +41,9 @@ public class ServiceImpl implements Serializable,Service{
     
     @Inject
     private EntityManager em;
+    
+    @Inject @ChatNotifyEndPoint
+    private URI wsURI;
     
     @Override
     public boolean registerAccount(Account accout) {
@@ -51,7 +66,6 @@ public class ServiceImpl implements Serializable,Service{
     @Override
     public String publishToken(Account account) {
         Account entity = em.find(Account.class, account.getName());
-        System.out.println("hit" + entity.getName());
         String token = UUID.randomUUID().toString();
         entity.setToken(token);
         return token;
@@ -86,7 +100,22 @@ public class ServiceImpl implements Serializable,Service{
     
     @Override
     public void addChat(Chat chat) {
+        
         em.persist(chat);
+        em.flush();
+        
+        System.out.println(wsURI);
+        
+        WebSocketContainer wsContainer = ContainerProvider.getWebSocketContainer();
+        WsClient client = new WsClient();
+        
+        try {    
+            Session session = wsContainer.connectToServer(client,wsURI);
+            client.notifyUpdate();
+            session.close();
+        } catch (DeploymentException | IOException e) {
+            throw new WebApplicationException(e);
+        }
     }
 
     @Override

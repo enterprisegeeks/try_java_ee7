@@ -26,7 +26,13 @@ var Main = Vue.extend({
             this.$data.open = true;
             this.getChat(room.id);
         })
-        
+        // websocket
+        var loc = window.location;
+        var websocket = new WebSocket("ws://" + loc.host + "/try_java_ee7-web/chat_notify");
+        var that = this;
+        websocket.onmessage = function (){
+                that.getChat(that.$data.roomId, that.$data.last);
+        }
     },
     methods:{
         getChat:function(roomId, from){
@@ -63,7 +69,6 @@ var Main = Vue.extend({
                     }
             ).success(function(data){
                 $data.content = "";
-                that.getChat($data.roomId, $data.last);
             });
         }
     }
