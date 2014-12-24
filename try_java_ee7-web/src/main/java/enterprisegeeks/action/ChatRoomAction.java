@@ -69,6 +69,8 @@ public class ChatRoomAction implements Serializable{
         
         chatRoom.setContent("");
         
+        service.notifyNewChat();
+        
     }
     
     // ** webscoket通知から起動され、チャット一覧を更新する。 */

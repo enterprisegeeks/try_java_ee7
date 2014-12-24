@@ -32,4 +32,6 @@ public interface Service{
     
     public Account getAccountByToken(String token);
     
+    public void notifyNewChat();
+    
 }

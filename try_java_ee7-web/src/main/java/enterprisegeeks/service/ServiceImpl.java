@@ -18,12 +18,14 @@ import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
 import javax.websocket.Session;
@@ -41,6 +43,7 @@ public class ServiceImpl implements Serializable,Service{
     
     @Inject @ChatNotifyEndPoint
     private String wsURI;
+    
     
     @Override
     public boolean registerAccount(Account accout) {
@@ -96,13 +99,16 @@ public class ServiceImpl implements Serializable,Service{
     }
     
     @Override
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void addChat(Chat chat) {
         
         em.persist(chat);
         em.flush();
         
-        System.out.println(wsURI);
-        
+    }
+
+    @Override
+    public void notifyNewChat(){
         WebSocketContainer wsContainer = ContainerProvider.getWebSocketContainer();
         WsClient client = new WsClient();
         
@@ -114,7 +120,7 @@ public class ServiceImpl implements Serializable,Service{
             throw new WebApplicationException(e);
         }
     }
-
+    
     @Override
     public Account getAccountByToken(String token) {
         Account ac = em.createNamedQuery("Account.byToken", Account.class)

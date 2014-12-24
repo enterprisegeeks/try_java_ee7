@@ -101,6 +101,7 @@ public class ChatroomResource {
         
         service.addChat(chat);
         
+        service.notifyNewChat();
         return Response.noContent().build();
         
     }
