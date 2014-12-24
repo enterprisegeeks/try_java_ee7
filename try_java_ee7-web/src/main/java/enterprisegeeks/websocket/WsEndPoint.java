@@ -23,12 +23,10 @@ public class WsEndPoint {
   
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println(session.getId() + "was connect.");
     }
 
     @OnClose
     public void onClose(Session session) {
-        System.out.println(session.getId() + "was disconnnet.");
     }
 
     @OnMessage

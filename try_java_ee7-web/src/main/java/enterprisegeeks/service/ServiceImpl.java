@@ -18,12 +18,9 @@ import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -43,7 +40,7 @@ public class ServiceImpl implements Serializable,Service{
     private EntityManager em;
     
     @Inject @ChatNotifyEndPoint
-    private URI wsURI;
+    private String wsURI;
     
     @Override
     public boolean registerAccount(Account accout) {
@@ -109,11 +106,11 @@ public class ServiceImpl implements Serializable,Service{
         WebSocketContainer wsContainer = ContainerProvider.getWebSocketContainer();
         WsClient client = new WsClient();
         
-        try {    
-            Session session = wsContainer.connectToServer(client,wsURI);
+        try {
+            Session session = wsContainer.connectToServer(client,new URI(wsURI));
             client.notifyUpdate();
             session.close();
-        } catch (DeploymentException | IOException e) {
+        } catch (DeploymentException | IOException | URISyntaxException e) {
             throw new WebApplicationException(e);
         }
     }

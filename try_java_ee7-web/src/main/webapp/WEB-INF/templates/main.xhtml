@@ -11,9 +11,10 @@
         <h:outputStylesheet library="css" name="style.css" />
         <h:outputScript name="webjars/jquery/2.1.1/jquery.min.js" />
         <h:outputScript name="webjars/bootstrap/3.3.1/js/bootstrap.min.js" />
+        <h:outputScript library="js" name="jsf_websocket.js" />
         <title>try chat</title>
     </h:head>
-    <body>
+    <body onload="startWebSocket()">
         <f:view transient="false">   
             <f:event listener="#{loginListener.requireLogin}" type="preRenderView"  />
             <div id="navbar" class="navbar navbar-inverse">

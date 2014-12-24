@@ -45,7 +45,10 @@
                     </bs:input>
                     
                     <h:commandButton value="post" action="#{chatRoomAction.chat()}" class="btn btn-default">
-                            <f:ajax render=":chatList postForm:bsContent:content" execute="postForm:bsContent:content" />
+                            <f:ajax render="postForm:bsContent:content" execute="postForm:bsContent:content" />
+                    </h:commandButton> 
+                    <h:commandButton  id="hiddenButton" value="post" action="#{chatRoomAction.refreshChat()}" immediate="true" style="width: 0;height: 0;display: none;">
+                        <f:ajax render=":chatList" execute="postForm:bsContent:content"/>
                     </h:commandButton> 
                 </form>
                 </div>

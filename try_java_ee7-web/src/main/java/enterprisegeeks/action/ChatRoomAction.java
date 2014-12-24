@@ -54,7 +54,7 @@ public class ChatRoomAction implements Serializable{
             chatRoom.setLastPost(added.get(added.size() -1).getPosted());
         }
     }
-    /** 発言を行い、発言内容を更新する。 */
+    /** 発言を行う。 */
     @Transactional
     public void chat(){
         
@@ -69,6 +69,10 @@ public class ChatRoomAction implements Serializable{
         
         chatRoom.setContent("");
         
+    }
+    
+    // ** webscoket通知から起動され、チャット一覧を更新する。 */
+    public void refreshChat(){
         // 以前より更新されたチャットを取得
         List<Chat> added = service.findChatByRoom(auth.getSelected(), chatRoom.getLastPost());
         

@@ -21,14 +21,10 @@ public class ChatNotifyUrl {
     private HttpServletRequest req;
     
     @Produces @ChatNotifyEndPoint
-    public URI getUri(){
-        
-        try {
-            return new URI(String.format("ws://%s:%s%s/chat_notify", req.getServerName()
-                    , req.getServerPort(), req.getContextPath()));
-        } catch (URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        }
+    public String getUri(){
+        return String.format("ws://%s:%s%s/chat_notify", req.getServerName()
+                    , req.getServerPort(), req.getContextPath());
     }
+    
     
 }
