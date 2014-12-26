@@ -19,6 +19,8 @@ public interface Service{
     
     public boolean registerAccount(Account accout);
     
+    public Account findAccountByName(String name);
+    
     /** ログイン用トークン発行 */
     public String publishToken(Account account);
     
@@ -32,6 +34,5 @@ public interface Service{
     
     public Account getAccountByToken(String token);
     
-    public void notifyNewChat();
     
 }

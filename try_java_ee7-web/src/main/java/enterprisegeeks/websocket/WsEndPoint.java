@@ -7,6 +7,8 @@ package enterprisegeeks.websocket;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
+import javax.enterprise.concurrent.ManagedExecutorService;
+import javax.enterprise.concurrent.ManagedScheduledExecutorService;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.websocket.EncodeException;
@@ -26,21 +28,14 @@ import javax.websocket.server.ServerEndpoint;
 public class WsEndPoint {
   
     @Inject
-    private ExecutorService es;
+    private ManagedScheduledExecutorService es;
     
-    @OnOpen
-    public void onOpen(Session session) {
-    }
-
-    @OnClose
-    public void onClose(Session session) {
-    }
 
     @OnMessage
     public void onMessage(Signal sign, Session client) throws IOException, EncodeException {
         if (sign == Signal.UPDATE) {
             // 非同期送信
-            for (final Session otherSession : client.getOpenSessions()) {
+            for (Session otherSession : client.getOpenSessions()) {
                 es.submit(() -> {
                     try {
                         otherSession.getBasicRemote().sendText("");
@@ -48,6 +43,7 @@ public class WsEndPoint {
                         throw new RuntimeException(ex);
                     }
                 });
+                
             }
         }
     }

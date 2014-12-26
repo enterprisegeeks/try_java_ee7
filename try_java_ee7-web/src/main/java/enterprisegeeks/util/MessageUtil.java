@@ -5,14 +5,14 @@
  */
 package enterprisegeeks.util;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Singleton;
 
 /**
  * メッセージ取得
  */
-@Singleton
+@ApplicationScoped
 public class MessageUtil {
     
     public void addMessage(String cliendId, String messageId) {

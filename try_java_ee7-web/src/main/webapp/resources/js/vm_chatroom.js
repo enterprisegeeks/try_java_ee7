@@ -63,7 +63,7 @@ var Main = Vue.extend({
                     type:"PUT", 
                     data:JSON.stringify({roomId:$data.roomId, content:$data.content}),
                     dataType: 'json',
-                    contentType: 'application/json',
+                    contentType: 'application/json;charset=UTF-8',
                     headers: authHeader,
                     vm:function(){return $data;}
                     }

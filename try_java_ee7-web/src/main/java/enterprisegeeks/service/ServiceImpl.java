@@ -18,7 +18,6 @@ import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -40,10 +39,13 @@ public class ServiceImpl implements Serializable,Service{
     
     @Inject
     private EntityManager em;
-    
-    @Inject @ChatNotifyEndPoint
-    private String wsURI;
-    
+
+    @Override
+    public Account findAccountByName(String name) {
+        Account acc = em.find(Account.class, name);
+        em.detach(acc);
+        return acc;
+    }
     
     @Override
     public boolean registerAccount(Account accout) {
@@ -76,7 +78,9 @@ public class ServiceImpl implements Serializable,Service{
     /** チャットルーム一覧 */
     @Override
     public List<Room> allRooms() {
-        return em.createNamedQuery("Room.all", Room.class).getResultList();
+        List<Room> roomList = em.createNamedQuery("Room.all", Room.class).getResultList();
+        em.clear();
+        return roomList;
     }
     
     /** チャットルームのチャット一覧を取得 */
@@ -107,19 +111,6 @@ public class ServiceImpl implements Serializable,Service{
         
     }
 
-    @Override
-    public void notifyNewChat(){
-        WebSocketContainer wsContainer = ContainerProvider.getWebSocketContainer();
-        WsClient client = new WsClient();
-        
-        try {
-            Session session = wsContainer.connectToServer(client,new URI(wsURI));
-            client.notifyUpdate();
-            session.close();
-        } catch (DeploymentException | IOException | URISyntaxException e) {
-            throw new WebApplicationException(e);
-        }
-    }
     
     @Override
     public Account getAccountByToken(String token) {

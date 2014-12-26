@@ -12,6 +12,7 @@ import enterprisegeeks.rest.dto.Authed;
 import enterprisegeeks.rest.dto.ChatList;
 import enterprisegeeks.rest.dto.ChatRooms;
 import enterprisegeeks.rest.dto.NewChat;
+import enterprisegeeks.service.ChatNotifier;
 import enterprisegeeks.service.Service;
 import java.sql.Timestamp;
 import java.util.List;
@@ -42,6 +43,9 @@ public class ChatroomResource {
     
     @Inject 
     private Authed authed;
+    
+    @Inject
+    private ChatNotifier notify;
     
     @GET
     @WithAuth
@@ -101,7 +105,7 @@ public class ChatroomResource {
         
         service.addChat(chat);
         
-        service.notifyNewChat();
+        notify.notifyNewChat();
         return Response.noContent().build();
         
     }

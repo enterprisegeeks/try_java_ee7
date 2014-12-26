@@ -5,10 +5,12 @@
  */
 package enterprisegeeks.util;
 
-import java.util.concurrent.ExecutorService;
 import javax.annotation.Resource;
+import javax.enterprise.concurrent.ManagedExecutorService;
+import javax.enterprise.concurrent.ManagedScheduledExecutorService;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
+
 
 /**
  *
@@ -16,7 +18,8 @@ import javax.enterprise.inject.Produces;
  */
 @Dependent
 public class CoucurrencyProducer {
-    @Resource(lookup="concurrent/__defaultManagedExecutorService")
+   
+    @Resource(lookup = "concurrent/__defaultManagedScheduledExecutorService")
     @Produces
-    private ExecutorService myExecutor;
+    private ManagedScheduledExecutorService scheduler;
 }

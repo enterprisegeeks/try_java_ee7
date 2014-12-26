@@ -9,6 +9,7 @@ import enterprisegeeks.entity.Chat;
 import enterprisegeeks.entity.Room;
 import enterprisegeeks.model.Auth;
 import enterprisegeeks.model.ChatRoom;
+import enterprisegeeks.service.ChatNotifier;
 import enterprisegeeks.service.Service;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -33,6 +34,9 @@ public class ChatRoomAction implements Serializable{
     
     @Inject
     private Service service;
+    
+    @Inject
+    private ChatNotifier notify;
     
     /**
      * VIEW初期化時に実行し、チャットルームの一覧をviewScopeのオブジェクトに設定する。
@@ -69,7 +73,7 @@ public class ChatRoomAction implements Serializable{
         
         chatRoom.setContent("");
         
-        service.notifyNewChat();
+        notify.notifyNewChat();
         
     }
     
