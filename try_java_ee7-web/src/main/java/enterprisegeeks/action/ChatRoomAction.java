@@ -82,8 +82,10 @@ public class ChatRoomAction implements Serializable{
         // 以前より更新されたチャットを取得
         List<Chat> added = service.findChatByRoom(auth.getSelected(), chatRoom.getLastPost());
         
-        chatRoom.getChats().addAll(added);
-        chatRoom.setLastPost(added.get(added.size() - 1).getPosted());
+        if (!added.isEmpty()) {
+            chatRoom.getChats().addAll(added);
+            chatRoom.setLastPost(added.get(added.size() - 1).getPosted());   
+        }
     }
 
     public ChatRoom getChatRoom() {

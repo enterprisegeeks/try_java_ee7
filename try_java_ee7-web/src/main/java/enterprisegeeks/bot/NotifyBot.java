@@ -12,26 +12,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.concurrent.LastExecution;
 import javax.enterprise.concurrent.ManagedScheduledExecutorService;
 import javax.enterprise.concurrent.Trigger;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.MediaType;
 
 /*
@@ -46,6 +37,39 @@ public class NotifyBot {
     
     @Inject
     private Service service;
+    
+    private static final Trigger hourTrigger = new Trigger() {
+
+        /**
+         * 次回実行時の時刻を決める
+         * @param le 前回実行時の情報(初回はnull)
+         * @param date ユーティリティが定めた予定実行時刻
+         * @return 次回の実行時刻
+         */
+        @Override
+        public Date getNextRunTime(LastExecution le, Date date) {
+            if (le == null) {
+                // 初回実行時
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.add(Calendar.HOUR, 1);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                System.out.println("first execution at " + cal.getTime());
+                return cal.getTime();
+            }
+            // 前回実行時の1時間後
+            Date next =  new Date(le.getScheduledStart().getTime() + 3600 * 1000);
+            System.out.println("next execution at " + next); 
+            return next;
+        }
+
+        @Override
+        public boolean skipRun(LastExecution le, Date date) {
+            return false;
+        }
+    };
     
     
     @PostConstruct
@@ -70,8 +94,7 @@ public class NotifyBot {
             });
         };
         
-        scheduler.scheduleAtFixedRate(command,
-            2L, 30L, TimeUnit.SECONDS);
+        scheduler.schedule(command, hourTrigger);
     }
     
 }
