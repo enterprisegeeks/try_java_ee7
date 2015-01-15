@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -34,7 +35,7 @@ import javax.ws.rs.WebApplicationException;
 /**
  * 永続層周りの機能を提供
  */
-@Dependent // IFと実装クラスを分ける場合、実装クラス側にCDIアノテーション付与。
+@RequestScoped // IFと実装クラスを分ける場合、実装クラス側にCDIアノテーション付与。
 public class ServiceImpl implements Serializable,Service{
     
     @Inject

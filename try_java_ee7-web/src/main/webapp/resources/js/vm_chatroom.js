@@ -29,7 +29,14 @@ var Main = Vue.extend({
         // websocket
         var loc = window.location;
         var websocket = new WebSocket("ws://" + loc.host + "/try_java_ee7-web/chat_notify");
+        
         var that = this;
+        websocket.onopen = function(){ 
+            console.log("open ws");
+            websocket.send("");
+        };
+        
+        websocket.onerror = function(event){ alert(event.data);};
         websocket.onmessage = function (){
                 that.getChat(that.$data.roomId, that.$data.last);
         }

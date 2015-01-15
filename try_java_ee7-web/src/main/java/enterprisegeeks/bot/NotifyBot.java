@@ -7,6 +7,7 @@ package enterprisegeeks.bot;
 
 import enterprisegeeks.rest.dto.NewChat;
 import enterprisegeeks.service.Service;
+import enterprisegeeks.util.ScheduledExecutor;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -34,7 +35,7 @@ import javax.ws.rs.core.MediaType;
 @Startup
 public class NotifyBot {
     
-    @Inject
+    @Inject @ScheduledExecutor
     private ManagedScheduledExecutorService scheduler;
     
     @Inject

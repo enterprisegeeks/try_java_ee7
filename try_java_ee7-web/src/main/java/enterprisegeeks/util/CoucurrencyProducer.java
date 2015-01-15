@@ -13,13 +13,23 @@ import javax.enterprise.inject.Produces;
 
 
 /**
- *
- * @author kentaro.maeda
+ * 
+ * ConcurrencyUtilのリソースのProducer
+ * 
+ * ManagedExecutorServiceとManagedScheduledExecutorServiceの2つを
+ * CDI対象とする場合、両者ともManagedExecutorServiceを実装しているため、
+ * Qualifierによる指定が必要となる。
  */
 @Dependent
 public class CoucurrencyProducer {
    
     @Resource(lookup = "concurrent/__defaultManagedScheduledExecutorService")
+    @ScheduledExecutor
     @Produces
     private ManagedScheduledExecutorService scheduler;
+    
+    @Resource(lookup = "concurrent/__defaultManagedExecutorService")
+    @Executor
+    @Produces
+    private ManagedExecutorService executor;
 }
