@@ -17,6 +17,9 @@ import javax.ws.rs.WebApplicationException;
 /**
  * WSサーバーに接続する方。通常ブラウザから接続するが、
  * サーバー側の通知Botなどの用途や、ブラウザのエミュレートとして使える。
+ * 
+ * 同一サーバーでよいのなら、CDIのイベント通知の方が楽。
+ * 現状その実装に切り替えているので、このクラスは不要になっている。
  */
 @ClientEndpoint(encoders = SignalEncoder.class)
 public class WsClient {

@@ -6,12 +6,14 @@
 package enterprisegeeks.service;
 
 import enterprisegeeks.websocket.ChatNotifyEndPoint;
+import enterprisegeeks.websocket.Signal;
 import enterprisegeeks.websocket.WsClient;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -28,16 +30,11 @@ public class ChatNotifier implements Serializable {
     @Inject @ChatNotifyEndPoint
     private String wsURI;
     
+    @Inject
+    private Event<Signal> event;
+    
     public void notifyNewChat(){
-        WebSocketContainer wsContainer = ContainerProvider.getWebSocketContainer();
-        WsClient client = new WsClient();
-        
-        try {
-            Session session = wsContainer.connectToServer(client,new URI(wsURI));
-            client.notifyUpdate();
-            session.close();
-        } catch (DeploymentException | IOException | URISyntaxException e) {
-            throw new WebApplicationException(e);
-        }
+        System.out.println("fire");
+        event.fire(Signal.UPDATE);
     }
 }
