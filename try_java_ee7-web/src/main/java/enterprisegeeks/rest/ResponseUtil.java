@@ -5,8 +5,10 @@
  */
 package enterprisegeeks.rest;
 
-import enterprisegeeks.rest.anotation.Message;
-import enterprisegeeks.rest.dto.Messages;
+import enterprisegeeks.rest.anotation.MessageResource;
+import enterprisegeeks.rest.dto.Message;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,7 +22,7 @@ import javax.ws.rs.core.Response;
 public class ResponseUtil{
     
     @Inject
-    @Message
+    @MessageResource
     private ResourceBundle messages;
     
     /*
@@ -29,9 +31,9 @@ public class ResponseUtil{
     public Response buildValidErrorResponce(String key, String messageKey) {
         
         String message = messages.getString(messageKey);
-        Messages ms = new Messages();
-        ms.addMessage(key, message);
-        return Response.status(400).type(MediaType.APPLICATION_JSON).entity(ms).build();
+        
+        return Response.status(400).type(MediaType.APPLICATION_JSON)
+                .entity(new Message[]{Message.of(key, message)}).build();
         
     }
 }

@@ -5,7 +5,7 @@
  */
 package enterprisegeeks.rest;
 
-import enterprisegeeks.rest.anotation.Message;
+import enterprisegeeks.rest.anotation.MessageResource;
 import java.util.ResourceBundle;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -16,7 +16,7 @@ import javax.enterprise.inject.Produces;
 @ApplicationScoped
 public class MessageFromResouce {
     
-    @Produces @Message
+    @Produces @MessageResource
     public ResourceBundle read() {
         return ResourceBundle.getBundle("msg");
     }

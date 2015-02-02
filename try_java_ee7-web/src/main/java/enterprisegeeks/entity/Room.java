@@ -13,11 +13,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * チャットルーム
  */
 @Vetoed //CDI対象外
+@XmlRootElement
 @Entity
 @NamedQueries(@NamedQuery(name = "Room.all", query = "select r from Room r order by r.id"))
 public class Room implements Serializable {

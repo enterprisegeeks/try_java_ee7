@@ -5,7 +5,7 @@
  */
 package enterprisegeeks.rest;
 
-import enterprisegeeks.rest.anotation.Message;
+import enterprisegeeks.rest.anotation.MessageResource;
 import enterprisegeeks.rest.anotation.WithAuth;
 import enterprisegeeks.entity.Account;
 import enterprisegeeks.rest.dto.Authed;
@@ -39,7 +39,7 @@ public class WithAuthInterceptor implements Serializable{
     @Inject
     private Service service;
     
-    @Inject @Message
+    @Inject @MessageResource
     private ResourceBundle message;
     
     @Inject

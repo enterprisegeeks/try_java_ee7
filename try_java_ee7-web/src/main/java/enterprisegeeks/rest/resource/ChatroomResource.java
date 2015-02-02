@@ -10,7 +10,6 @@ import enterprisegeeks.entity.Room;
 import enterprisegeeks.rest.anotation.WithAuth;
 import enterprisegeeks.rest.dto.Authed;
 import enterprisegeeks.rest.dto.ChatList;
-import enterprisegeeks.rest.dto.ChatRooms;
 import enterprisegeeks.rest.dto.NewChat;
 import enterprisegeeks.service.ChatNotifier;
 import enterprisegeeks.service.Service;
@@ -57,10 +56,8 @@ public class ChatroomResource {
     @Path("rooms")
     @WithAuth
     @Produces(MediaType.APPLICATION_JSON)
-    public ChatRooms getRooms() {
-        ChatRooms rooms = new ChatRooms();
-        rooms.rooms = service.allRooms();
-        return rooms;
+    public List<Room> getRooms() {
+        return service.allRooms();
     }
     
     /** 指定時刻以降のチャット一覧の取得。 */

@@ -7,7 +7,7 @@ $( document ).ajaxError(function(event, jqXhr, settings, thrownError){
     } else {
         var data = jqXhr.responseJSON;
         var $data = settings.vm();
-        data.messages.forEach(function(e){
+        data.forEach(function(e){
             $data[e.key +"_message"] = e.message;
             if (e.key !== "error") {
                 $data[e.key + "_error_css"] = "has-error";

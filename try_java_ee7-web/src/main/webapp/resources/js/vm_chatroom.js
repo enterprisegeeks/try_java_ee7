@@ -92,7 +92,7 @@ var Menu = Vue.extend({
                 method:"GET", 
                 headers: authHeader }
         ).success(function(data){
-            data.rooms.forEach(function(e){
+            data.forEach(function(e){
                 that.rooms.push({id:e.id, name:e.name, select:false});
             })         
         });
